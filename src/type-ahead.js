@@ -13,7 +13,9 @@ var TypeAhead = function (element, candidates, opts) {
 
     typeAhead.candidates = candidates || [];
 
-    typeAhead.list = new TypeAheadList(typeAhead);
+    typeAhead.suggestionClass = opts.hasOwnProperty('suggestionClass') ? opts.suggestionClass : '';
+
+    typeAhead.list = new TypeAheadList(typeAhead, typeAhead.suggestionClass);
 
     this.minLength = opts.hasOwnProperty('minLength') ? opts.minLength : 3;
 
@@ -217,7 +219,7 @@ TypeAhead.prototype.highlight = function (item) {
  * @constructor
  * @param {TypeAhead} typeAhead
  */
-var TypeAheadList = function (typeAhead) {
+var TypeAheadList = function (typeAhead, cssClass) {
     var typeAheadList = this;
 
     typeAheadList.typeAhead = typeAhead;
@@ -227,6 +229,10 @@ var TypeAheadList = function (typeAhead) {
     typeAheadList.active = 0;
 
     typeAheadList.element = document.createElement('ul');
+    
+    if(cssClass != ''){
+    	typeAheadList.element.setAttribute("class",cssClass);
+    }  
 
     typeAhead.element.parentNode.insertBefore(typeAheadList.element, typeAhead.element.nextSibling);
 
